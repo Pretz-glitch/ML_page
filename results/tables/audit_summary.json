@@ -1,7 +1,6 @@
 {
   "phase": 1,
   "step": "audit",
-  "git_commit": "d454857bec41392712340f108127c65deaa2d761",
   "versions": {
     "python": "3.12.3",
     "numpy": "1.26.4",
