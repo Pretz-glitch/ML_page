@@ -3,7 +3,30 @@
 **Project:** Anomaly Page — explainable detection of data-quality faults in multi-station water-quality data
 **Owner:** single person
 **Budget:** 5 working days (3-day fallback), compute < 2 hours
-**Status:** planning complete; implementation starts at Milestone 1
+**Status:** Phase 0 complete; Phase 1 is next
+**Last updated:** 2026-11-05
+
+---
+
+## Phase progress
+
+Tick a phase only when its **definition of done** is satisfied. Do not tick individual tasks if the phase output does not exist.
+
+- [x] **Phase 0 — Repository and scope** · Day 0 · complete
+- [ ] **Phase 1 — Data pipeline and audit** · Day 1 · next
+- [ ] **Phase 2 — Detectors and fault injection** · Day 2
+- [ ] **Phase 3 — Detection benchmark** · Day 3
+- [ ] **Phase 4 — Explanation faithfulness** · Day 4
+- [ ] **Phase 5 — Real-record analysis** · Day 5 morning
+- [ ] **Phase 6 — Report and release** · Day 5 afternoon
+
+### Progress log
+
+| Date | Phase | What changed |
+|---|---|---|
+| 2026-11-05 | Phase 0 | Repository initialised; scope, method, related work, limitations and pilot evidence written; raw UCI archive and source log committed; roadmap frozen |
+
+Update this table whenever a phase is completed or its scope changes. Keep the newest entry at the bottom.
 
 ---
 
@@ -44,9 +67,9 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 ---
 
-## Milestones
+## Phase details
 
-### M0 — Repository and scope (done)
+### Phase 0 — Repository and scope (done)
 
 - [x] Clone / initialise repository
 - [x] Write problem statement and research questions
@@ -55,7 +78,7 @@ Any change to this table must be recorded in the decision log at the bottom of t
 - [x] Write this roadmap
 - [x] Add raw data and source log
 
-### M1 — Data pipeline and audit (Day 1)
+### Phase 1 — Data pipeline and audit (Day 1)
 
 - [ ] `src/io.py`: load `water_dataset.mat`, build `(705, 37, 11)` tensor
 - [ ] `src/preprocess.py`: flatten to station-day table, add date and station ID
@@ -71,7 +94,7 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 **Definition of done:** the table has 26,085 rows, 11 feature columns, no missing values, and the split boundary is asserted in a test.
 
-### M2 — Detectors and fault injection (Day 2)
+### Phase 2 — Detectors and fault injection (Day 2)
 
 - [ ] `src/detectors.py`: MAD, PCA reconstruction (optional), Mahalanobis, Isolation Forest
 - [ ] `src/faults.py`: spike, drift, correlation-break injectors
@@ -82,7 +105,7 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 **Definition of done:** one command produces a corrupted test set with a boolean label vector and knows which feature and which rows were changed.
 
-### M3 — Detection benchmark (Day 3)
+### Phase 3 — Detection benchmark (Day 3)
 
 - [ ] `scripts/03_run_detection.py`
 - [ ] Fit each detector once per seed on clean train data
@@ -94,7 +117,7 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 **Definition of done:** a detector × fault-type table with mean ± SD and confidence intervals.
 
-### M4 — Explanation faithfulness (Day 4)
+### Phase 4 — Explanation faithfulness (Day 4)
 
 - [ ] `src/explain.py`: occlusion attribution for any detector
 - [ ] Exact Mahalanobis contribution: `z_j * (Σ⁻¹ z)_j`
@@ -106,7 +129,7 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 **Definition of done:** for each fault type, a table showing whether the explanation points at the corrupted measurement, and how often.
 
-### M5 — Real-record analysis (Day 5, morning)
+### Phase 5 — Real-record analysis (Day 5, morning)
 
 - [ ] `scripts/05_real_record.py`
 - [ ] Apply the best detectors to the unlabelled test period
@@ -117,7 +140,7 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 **Definition of done:** a descriptive section that clearly says these are candidate faults, not confirmed pollution events.
 
-### M6 — Report and release (Day 5, afternoon)
+### Phase 6 — Report and release (Day 5, afternoon)
 
 - [ ] `docs/report.md` or PDF, 8–10 pages
 - [ ] Slides (10–12)
@@ -206,7 +229,7 @@ If the deadline moves, cut to this and still submit a complete story.
 - Mahalanobis occlusion — isolates detector effect from explainer effect.
 - Seasonal-residual scaling — one sensitivity check.
 
-**Stretch, do not start before M4 is done:**
+**Stretch, do not start before Phase 4 is done:**
 
 - DIFFI attribution
 - Grouped SHAP

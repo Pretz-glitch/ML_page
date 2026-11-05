@@ -318,7 +318,7 @@ Then `Σ_j c_j = zᵀ Σ⁻¹ z = d²`. This is an exact additive decomposition 
 
 ### 6.3 Optional: DIFFI
 
-Only if M4 is complete and there is time. DIFFI is a depth-based attribution for Isolation Forest (Carletti et al., 2023). An MIT-licensed reference implementation exists; if adapted, cite it and retain the licence notice.
+Only if Phase 4 is complete and there is time. DIFFI is a depth-based attribution for Isolation Forest (Carletti et al., 2023). An MIT-licensed reference implementation exists; if adapted, cite it and retain the licence notice.
 
 Do not start DIFFI before the core faithfulness table exists.
 

@@ -97,7 +97,7 @@ results/                   generated tables, figures and logs (gitignored)
 
 ## Status
 
-**Planning.** No modelling code yet. The scope, method and roadmap are frozen; implementation starts at Milestone 1 in [ROADMAP.md](ROADMAP.md).
+**Phase 0 complete.** No modelling code yet. The scope, method and roadmap are frozen; implementation starts at Phase 1 in [ROADMAP.md](ROADMAP.md).
 
 ---
 
