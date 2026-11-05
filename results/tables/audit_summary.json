@@ -10,9 +10,9 @@
     "matplotlib": "3.6.3"
   },
   "inputs": {
-    "station_day": "/home/preetham/Documents/5th_sem/PAGE/data/processed/station_day.csv",
+    "station_day": "data/processed/station_day.csv",
     "station_day_sha256": "2192d356714ce6faf897229e1eeac3be0730f7ff3d6ec9ab5fd37a30a76b2bf5",
-    "station_day_scaled": "/home/preetham/Documents/5th_sem/PAGE/data/processed/station_day_scaled.csv",
+    "station_day_scaled": "data/processed/station_day_scaled.csv",
     "station_day_scaled_sha256": "385aa126f90470cd2e4839040d6d8286c75acc356617d10cce1b0a99015db457"
   },
   "shape": {

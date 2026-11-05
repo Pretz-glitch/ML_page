@@ -211,9 +211,13 @@ def main() -> None:
         "step": "audit",
         "versions": package_versions(),
         "inputs": {
-            "station_day": str(raw_path),
+            "station_day": str(raw_path.relative_to(ROOT))
+            if raw_path.is_relative_to(ROOT)
+            else str(raw_path),
             "station_day_sha256": sha256(raw_path),
-            "station_day_scaled": str(scaled_path),
+            "station_day_scaled": str(scaled_path.relative_to(ROOT))
+            if scaled_path.is_relative_to(ROOT)
+            else str(scaled_path),
             "station_day_scaled_sha256": sha256(scaled_path),
         },
         "shape": {
