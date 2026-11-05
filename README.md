@@ -87,9 +87,9 @@ docs/
 data/
   README.md                source, licence, structure
   raw/                     UCI archive and source log
-src/                       pipeline modules (Phase 1 implemented)
-scripts/                   runnable experiment scripts (Phase 1 implemented)
-tests/                     unit tests (Phase 1 tests implemented)
+src/                       pipeline modules (Phases 1–2 implemented)
+scripts/                   runnable experiment scripts (Phases 1–2 implemented)
+tests/                     unit tests (Phases 1–2 implemented)
 results/                   generated tables and figures (logs are gitignored)
 ```
 
@@ -97,7 +97,13 @@ results/                   generated tables and figures (logs are gitignored)
 
 ## Status
 
-**Phase 1 complete.** The station-day table, leakage-safe scaler and data audit are implemented and tested. Phase 2 (detectors and fault injection) is next.
+**Phase 2 complete.** Detectors and fault injection are implemented and tested. Phase 3 (detection benchmark) is next.
+
+| Phase | Status | Evidence |
+|---|---|---|
+| 1 — Data pipeline and audit | ✅ Complete | [results/phase1_summary.md](results/phase1_summary.md) |
+| 2 — Detectors and fault injection | ✅ Complete | [results/phase2_smoke.md](results/phase2_smoke.md) |
+| 3 — Detection benchmark | ⬜ Next | — |
 
 ### Phase 1 at a glance
 
@@ -109,14 +115,24 @@ results/                   generated tables and figures (logs are gitignored)
 | Missing values | 0 |
 | Between-station variance ≥ 50% | `pH_min` (0.93), `SC_min` (0.92), `SC_max` (0.90) |
 | Strongest correlation | `T_mean`–`T_min`, r = 0.996 |
-| Tests | 16 passing |
-| Full audit | [results/phase1_summary.md](results/phase1_summary.md) |
+
+### Phase 2 at a glance
+
+| Check | Result |
+|---|---|
+| Detectors | MAD, Mahalanobis, PCA reconstruction, Isolation Forest, Extended IF |
+| Fault types | spike, drift, correlation break, stuck |
+| Injection | 2% prevalence; 209–225 labelled station-days per fault type |
+| Outputs | corrupted tensor + tidy label table + cell and station-day masks |
+| Tests | 56 passing |
+| Smoke run | Mahalanobis 0.994 / 0.979 / 0.863 on spike / drift / correlation break |
 
 Reproduce with:
 
 ```bash
 python scripts/01_build_dataset.py
 python scripts/02_audit.py
+python scripts/phase2_smoke.py
 pytest -q
 ```
 

@@ -1,7 +1,21 @@
 """Anomaly Page pipeline package."""
 
+from .detectors import DETECTOR_NAMES, BaseDetector, make_detector
+from .faults import (
+    FAULT_TYPES,
+    FaultInjector,
+    InjectionProfile,
+    InjectionResult,
+    build_injection_profile,
+)
 from .io import Dataset, load_dataset
-from .preprocess import Scaler, build_raw_frame, build_scaled_frame, fit_scaler, transform
+from .preprocess import (
+    Scaler,
+    build_raw_frame,
+    build_scaled_frame,
+    fit_scaler,
+    transform,
+)
 
 __all__ = [
     "Dataset",
@@ -11,4 +25,12 @@ __all__ = [
     "build_scaled_frame",
     "fit_scaler",
     "transform",
+    "BaseDetector",
+    "DETECTOR_NAMES",
+    "make_detector",
+    "FAULT_TYPES",
+    "FaultInjector",
+    "InjectionProfile",
+    "InjectionResult",
+    "build_injection_profile",
 ]

@@ -6,26 +6,26 @@ Run with:
 pytest -q
 ```
 
-## Current tests (Phase 1, 16 passing)
+## Current tests (Phases 1–2, 56 passing)
 
 | Test file | What it asserts |
 |---|---|
 | `conftest.py` | Loads the raw archive once for the session |
 | `test_io.py` | Tensor shape `(705, 37, 11)`, 26,085 station-days, finite values, contiguous dates, 37 unique stations, 11 expected feature names, complete station-group coverage, values in `[0, 1]` |
 | `test_split.py` | 26,085 rows, 423/282 day split, no overlap, scaler fitted on training medians only, training medians are zero after scaling, training IQR is one where IQR was used, test rows transformed with train parameters |
+| `test_detectors.py` | Every detector flags a known dependency-breaking outlier above its 99th percentile; score shape and finiteness; width checks; covariance symmetry; factory errors |
+| `test_faults.py` | Injected rows are labelled; clean cells are byte-identical; marked cells change; values stay in `[0, 1]`; prevalence matches; labels are unique; row IDs match the table convention; masks agree with labels; stuck values are constant per event; drift magnitude is constant per event; same seed is deterministic; invalid inputs raise |
 
 ## Planned tests
 
 | Test file | What it asserts |
 |---|---|
-| `test_faults.py` | Injected rows are labelled; clean rows are unchanged; prevalence matches; values stay in `[0, 1]`; training data untouched |
-| `test_detectors.py` | Score orientation is correct; covariance is positive definite or uses a pseudo-inverse |
-| `test_metrics.py` | AUC is 1.0 for perfect separation and 0.5 for random scores; top-1 recovery is 1.0 for a perfect attribution |
-| `test_explain.py` | Mahalanobis contributions sum to the squared distance; occlusion returns one contribution per feature |
+| `test_metrics.py` | AUC is 1.0 for perfect separation and 0.5 for random scores; top-1 recovery is 1.0 for a perfect attribution; bootstrap CIs are ordered |
+| `test_explain.py` | Mahalanobis contributions sum to the squared distance; occlusion returns one contribution per feature; deletion drops the score |
 
 ## Rules
 
 - Tests must not require network access.
 - Tests must not depend on generated result files.
-- Keep tests small: use a synthetic 5×3 array where possible.
+- Keep tests small: use synthetic arrays where possible.
 - A bug found in the pipeline gets a regression test before it is fixed.

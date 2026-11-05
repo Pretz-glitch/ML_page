@@ -154,20 +154,20 @@ In the pilot, this selected eight features: `pH_max`, `SC_mean`, `DO_max`, `DO_m
 #### Spike
 
 - One station-day, one feature.
-- `x' = clip(x ± k·iqr[s, j], 0, 1)`, with `k ∈ {4, 6, 8}` and random sign.
+- `x' = clip(x ± k·iqr[s, j], 0, 1)`, where `k` is drawn from a specified set or range (the smoke test uses 4–8; Phase 3 uses 4, 6 and 8 separately) and the sign is random.
 - Label the single row.
 
 #### Drift
 
 - One station, one feature, contiguous window of `w ∈ [5, 20]` days.
-- `x'_t = clip(x_t + ramp_t, 0, 1)`, where `ramp` rises linearly from 0 to `±k·iqr[s, j]` over the window.
+- `x'_t = clip(x_t + ramp_t, 0, 1)`, where `ramp` rises linearly from `±(k·iqr[s, j])/w` to `±k·iqr[s, j]` over the window, so every day in the window changes.
 - Label all rows in the window.
 - Detection delay is measured from the first affected day to the first flagged day.
 
 #### Correlation break
 
 - One station, one feature, contiguous window of `w ∈ [5, 20]` days.
-- Replace the window's values with values of the same feature drawn from other station-days (without replacement), then clip to [0, 1].
+- Replace the window's values with values of the same feature drawn from other station-days, then clip to [0, 1].
 - This preserves the marginal distribution of the feature but breaks its relationship with the others.
 - Label all rows in the window.
 
@@ -191,13 +191,16 @@ Store a tidy label table:
 
 | Column | Meaning |
 |---|---|
-| `row_id` | index into the flattened test table |
-| `station_id`, `date` | location |
-| `feature` | injected column index/name |
-| `fault_type` | spike / drift / break / stuck |
-| `window_start`, `window_end` | for temporal faults |
-| `magnitude` | k or ramp size |
-| `seed` | injection seed |
+| `event_id` | Injection event identifier |
+| `row_id` | Index into the flattened test table (`day_index × 37 + station_index`) |
+| `day_index`, `date` | Global day and calendar date |
+| `station_id`, `station_index` | Human-readable station ID and tensor coordinate |
+| `feature`, `feature_index` | Injected column name and tensor coordinate |
+| `fault_type` | spike / drift / correlation_break / stuck |
+| `magnitude` | Nominal strength in IQR units (NaN for break/stuck) |
+| `magnitude_unit` | `iqr` or `not_applicable` |
+| `window_start_day`, `window_end_day` | Global window bounds |
+| `seed` | Injection seed |
 
 And a boolean vector aligned with the scored rows.
 
@@ -227,7 +230,7 @@ This is the multivariate extension of a per-feature robust z-score, but it is st
 
 ### 5.2 Mahalanobis distance (covariance baseline)
 
-Fit robust location `μ` and covariance `Σ` on training rows:
+Fit location `μ` and covariance `Σ` on training rows:
 
 ```
 d²(x) = (x - μ)ᵀ Σ⁻¹ (x - μ)
@@ -235,8 +238,9 @@ d²(x) = (x - μ)ᵀ Σ⁻¹ (x - μ)
 
 Implementation notes:
 
-- Use `sklearn.covariance.LedoitWolf` or `MinCovDet` to avoid a singular covariance.
-- If using the raw sample covariance, use `np.linalg.pinv`.
+- **Default:** sample covariance with `np.linalg.pinv`. With 15,651 training rows and 11 features it is well-conditioned, and it preserves the off-diagonal structure that correlation-break faults violate.
+- **Ledoit–Wolf shrinkage is a sensitivity variant, not the default.** On this dataset it shrinks the off-diagonals heavily (mean absolute off-diagonal covariance 0.23 → 0.08) and materially weakens detection of dependence anomalies.
+- If the covariance is singular (for example on a small synthetic test array), the pseudo-inverse handles it without changing the model family.
 - Score = `sqrt(d²)`.
 
 This is the core multivariate baseline. It explicitly models the correlation structure that a correlation-break fault violates.
@@ -257,7 +261,18 @@ Score orientation: `sklearn` returns higher `score_samples` for more normal poin
 
 Do not tune hyperparameters on the test set. If tuning is needed, use a small grid on the training period with an unsupervised criterion (e.g., stability of the top-k set), and report it.
 
-### 5.4 Extended Isolation Forest (optional, low cost)
+### 5.4 PCA reconstruction (linear-dependency baseline)
+
+Fit a PCA with three components on training rows and score the squared reconstruction error:
+
+```python
+PCA(n_components=3, random_state=seed)
+score(x) = ||x - reconstruct(x)||²
+```
+
+This captures linear dependence without an explicit covariance model. It is a useful middle ground between MAD and Mahalanobis: stronger than MAD on correlation breaks, weaker than Mahalanobis on the pilot.
+
+### 5.5 Extended Isolation Forest (optional, low cost)
 
 ```python
 isotree.IsolationForest(
@@ -272,10 +287,10 @@ Score with `model.predict(X)` (higher = more anomalous in `isotree`; verify orie
 
 Add this row if Day 3 finishes early. It is a strong result: it tests whether IF's weakness is the axis-parallel split or the isolation principle itself.
 
-### 5.5 What not to include
+### 5.6 What not to include
 
 - No deep autoencoders (data size and time budget do not justify them).
-- No LOF/OCSVM in the core (three detectors are enough).
+- No LOF/OCSVM in the core (five detectors are enough).
 - No supervised classifier (there are no real labels).
 - No tuning on injected test data.
 

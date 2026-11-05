@@ -3,7 +3,7 @@
 **Project:** Anomaly Page — explainable detection of data-quality faults in multi-station water-quality data
 **Owner:** single person
 **Budget:** 5 working days (3-day fallback), compute < 2 hours
-**Status:** Phase 1 complete; Phase 2 is next
+**Status:** Phase 2 complete; Phase 3 is next
 **Last updated:** 2026-11-05
 
 ---
@@ -14,8 +14,8 @@ Tick a phase only when its **definition of done** is satisfied. Do not tick indi
 
 - [x] **Phase 0 — Repository and scope** · Day 0 · complete
 - [x] **Phase 1 — Data pipeline and audit** · Day 1 · complete
-- [ ] **Phase 2 — Detectors and fault injection** · Day 2 · next
-- [ ] **Phase 3 — Detection benchmark** · Day 3
+- [x] **Phase 2 — Detectors and fault injection** · Day 2 · complete
+- [ ] **Phase 3 — Detection benchmark** · Day 3 · next
 - [ ] **Phase 4 — Explanation faithfulness** · Day 4
 - [ ] **Phase 5 — Real-record analysis** · Day 5 morning
 - [ ] **Phase 6 — Report and release** · Day 5 afternoon
@@ -26,6 +26,7 @@ Tick a phase only when its **definition of done** is satisfied. Do not tick indi
 |---|---|---|
 | 2026-11-05 | Phase 0 | Repository initialised; scope, method, related work, limitations and pilot evidence written; raw UCI archive and source log committed; roadmap frozen |
 | 2026-11-05 | Phase 1 | Station-day table (26,085 rows), temporal split, within-station scaler, audit tables and four figures; 16 tests passing |
+| 2026-11-05 | Phase 2 | Five detectors and four fault injectors; 56 tests passing; end-to-end smoke run in `results/phase2_smoke.md` |
 
 Update this table whenever a phase is completed or its scope changes. Keep the newest entry at the bottom.
 
@@ -37,7 +38,7 @@ A public repository that contains:
 
 - [x] A reproducible station-day table (26,085 rows) built from the raw UCI archive.
 - [x] A train-only preprocessing pipeline with a documented temporal split.
-- [ ] A fault injector covering spike, drift, and correlation-break faults, with unit tests.
+- [x] A fault injector covering spike, drift, and correlation-break faults, with unit tests.
 - [ ] Detection results for MAD, Isolation Forest, and Mahalanobis across three fault types and five seeds.
 - [ ] Attribution-faithfulness results for at least two local explanation methods.
 - [ ] A descriptive analysis of flags in the unlabelled real record, including three case studies.
@@ -95,14 +96,16 @@ Any change to this table must be recorded in the decision log at the bottom of t
 
 **Definition of done:** the table has 26,085 rows, 11 feature columns, no missing values, and the split boundary is asserted in a test.
 
-### Phase 2 — Detectors and fault injection (Day 2)
+### Phase 2 — Detectors and fault injection (Day 2, done)
 
-- [ ] `src/detectors.py`: MAD, PCA reconstruction (optional), Mahalanobis, Isolation Forest
-- [ ] `src/faults.py`: spike, drift, correlation-break injectors
-- [ ] Injection only into eligible features with meaningful within-station variance
-- [ ] Values clipped to the observed [0, 1] range
-- [ ] Fault labels stored alongside the corrupted matrix
-- [ ] `tests/test_faults.py`: injected rows are labelled; clean rows are unchanged; prevalence is correct
+- [x] `src/detectors.py`: MAD, PCA reconstruction, Mahalanobis, Isolation Forest, Extended IF
+- [x] `src/faults.py`: spike, drift, correlation-break and stuck injectors
+- [x] Injection only into eligible features with meaningful within-station variance
+- [x] Values clipped to the observed [0, 1] range
+- [x] Fault labels stored alongside the corrupted matrix
+- [x] `tests/test_detectors.py`: score orientation, width checks, covariance symmetry
+- [x] `tests/test_faults.py`: injected rows are labelled; clean rows are unchanged; prevalence is correct
+- [x] End-to-end smoke run on the real data (`results/phase2_smoke.md`)
 
 **Definition of done:** one command produces a corrupted test set with a boolean label vector and knows which feature and which rows were changed.
 

@@ -74,9 +74,7 @@ This is consistent with the known limitation of axis-parallel splits. It also me
 
 ### H1c — supported
 
-Stuck faults sit at chance for all cross-sectional detectors (0.50–0.66). This is expected: a stuck value is still a plausible value. Detecting it requires temporal features (first difference, run length), which are outside the core scope.
-
-Treat this as a diagnostic and a limitation, not a failure.
+Stuck faults sit near chance for most cross-sectional detectors in the pilot (0.50–0.66). The Phase 2 smoke run shows Mahalanobis reaching 0.79 on stuck faults: a frozen value can still violate the conditional expectation given the other features, but the signal is much weaker than for spike or drift. Treat stuck as a diagnostic, not a core result.
 
 ### Practical implication
 
@@ -141,7 +139,7 @@ And the importance ranking was not robust to preprocessing: Spearman correlation
 - Few repetitions (2–3 per cell), one injection schedule.
 - The pilot used a diagnostic prevalence, not the final 1–2%.
 - Extended IF was run only for spike/drift/break, not stuck.
-- The pilot used a single fixed covariance estimate; the final run should use Ledoit–Wolf or robust covariance and report sensitivity.
+- The pilot used the sample covariance with a pseudo-inverse. The final run keeps that as the default and reports Ledoit–Wolf as a sensitivity variant. Ledoit–Wolf shrinks the off-diagonals (mean absolute off-diagonal covariance 0.23 → 0.08) and weakens dependency-anomaly detection on this dataset.
 - The pilot's feature subset was selected by a variance threshold; the final script must compute and log it.
 - These numbers are not final results and should not be quoted in the report without re-running the frozen protocol.
 

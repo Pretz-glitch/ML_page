@@ -11,6 +11,10 @@ Run in order. Each script writes its outputs to `results/` and prints a `Wrote .
 | `05_real_record.py` | 5 | ⬜ | `results/tables/real_flags.csv`, case figure |
 | `06_make_figures.py` | 6 | ⬜ | final figures from saved CSVs |
 
+## Phase 2 verification
+
+Phase 2 has a dedicated integration script, `phase2_smoke.py`. It fits every detector on clean training data, injects each fault type into the test period, checks label/mask integrity, and writes `results/tables/phase2_smoke.csv` plus a JSON log. The curated report is [`results/phase2_smoke.md`](../results/phase2_smoke.md). Phase 3 adds the full `03_run_detection.py` benchmark.
+
 ## Conventions
 
 - Every modelling script accepts `--seed` and `--config` (or uses documented defaults).
