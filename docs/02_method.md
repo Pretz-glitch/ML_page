@@ -394,7 +394,7 @@ Optional rows: EIF in E2; Mahalanobis occlusion in E3; stuck diagnostic in E2.
 ## 10. Reproducibility
 
 - Pin package versions in `requirements.txt`.
-- Every script takes `--seed` and writes a JSON log with:
+- Every modelling script takes `--seed`; every script writes a JSON log with:
   - git commit hash
   - package versions
   - seed

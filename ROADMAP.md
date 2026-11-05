@@ -3,7 +3,7 @@
 **Project:** Anomaly Page — explainable detection of data-quality faults in multi-station water-quality data
 **Owner:** single person
 **Budget:** 5 working days (3-day fallback), compute < 2 hours
-**Status:** Phase 0 complete; Phase 1 is next
+**Status:** Phase 1 complete; Phase 2 is next
 **Last updated:** 2026-11-05
 
 ---
@@ -13,8 +13,8 @@
 Tick a phase only when its **definition of done** is satisfied. Do not tick individual tasks if the phase output does not exist.
 
 - [x] **Phase 0 — Repository and scope** · Day 0 · complete
-- [ ] **Phase 1 — Data pipeline and audit** · Day 1 · next
-- [ ] **Phase 2 — Detectors and fault injection** · Day 2
+- [x] **Phase 1 — Data pipeline and audit** · Day 1 · complete
+- [ ] **Phase 2 — Detectors and fault injection** · Day 2 · next
 - [ ] **Phase 3 — Detection benchmark** · Day 3
 - [ ] **Phase 4 — Explanation faithfulness** · Day 4
 - [ ] **Phase 5 — Real-record analysis** · Day 5 morning
@@ -25,6 +25,7 @@ Tick a phase only when its **definition of done** is satisfied. Do not tick indi
 | Date | Phase | What changed |
 |---|---|---|
 | 2026-11-05 | Phase 0 | Repository initialised; scope, method, related work, limitations and pilot evidence written; raw UCI archive and source log committed; roadmap frozen |
+| 2026-11-05 | Phase 1 | Station-day table (26,085 rows), temporal split, within-station scaler, audit tables and four figures; 16 tests passing |
 
 Update this table whenever a phase is completed or its scope changes. Keep the newest entry at the bottom.
 
@@ -34,8 +35,8 @@ Update this table whenever a phase is completed or its scope changes. Keep the n
 
 A public repository that contains:
 
-- [ ] A reproducible station-day table (26,085 rows) built from the raw UCI archive.
-- [ ] A train-only preprocessing pipeline with a documented temporal split.
+- [x] A reproducible station-day table (26,085 rows) built from the raw UCI archive.
+- [x] A train-only preprocessing pipeline with a documented temporal split.
 - [ ] A fault injector covering spike, drift, and correlation-break faults, with unit tests.
 - [ ] Detection results for MAD, Isolation Forest, and Mahalanobis across three fault types and five seeds.
 - [ ] Attribution-faithfulness results for at least two local explanation methods.
@@ -78,19 +79,19 @@ Any change to this table must be recorded in the decision log at the bottom of t
 - [x] Write this roadmap
 - [x] Add raw data and source log
 
-### Phase 1 — Data pipeline and audit (Day 1)
+### Phase 1 — Data pipeline and audit (Day 1, done)
 
-- [ ] `src/io.py`: load `water_dataset.mat`, build `(705, 37, 11)` tensor
-- [ ] `src/preprocess.py`: flatten to station-day table, add date and station ID
-- [ ] Chronological split: 423 train / 282 test days
-- [ ] Within-station median/IQR scaler fitted on train only
-- [ ] `scripts/01_build_dataset.py` writes `data/processed/station_day.csv`
-- [ ] `scripts/02_audit.py` produces:
-  - [ ] between-station vs within-station variance table
-  - [ ] correlation matrix / feature-family groups
-  - [ ] floor-value and missing-value check
-  - [ ] station × time coverage figure
-- [ ] `tests/test_split.py`: no test day leaks into training statistics
+- [x] `src/io.py`: load `water_dataset.mat`, build `(705, 37, 11)` tensor
+- [x] `src/preprocess.py`: flatten to station-day table, add date and station ID
+- [x] Chronological split: 423 train / 282 test days
+- [x] Within-station median/IQR scaler fitted on train only
+- [x] `scripts/01_build_dataset.py` writes `data/processed/station_day.csv`
+- [x] `scripts/02_audit.py` produces:
+  - [x] between-station vs within-station variance table
+  - [x] correlation matrix / feature-family groups
+  - [x] floor-value and missing-value check
+  - [x] station × time coverage figure
+- [x] `tests/test_split.py`: no test day leaks into training statistics
 
 **Definition of done:** the table has 26,085 rows, 11 feature columns, no missing values, and the split boundary is asserted in a test.
 

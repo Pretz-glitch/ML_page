@@ -87,17 +87,38 @@ docs/
 data/
   README.md                source, licence, structure
   raw/                     UCI archive and source log
-src/                       pipeline modules (to be implemented)
-scripts/                   runnable experiment scripts (to be implemented)
-tests/                     unit tests (to be implemented)
-results/                   generated tables, figures and logs (gitignored)
+src/                       pipeline modules (Phase 1 implemented)
+scripts/                   runnable experiment scripts (Phase 1 implemented)
+tests/                     unit tests (Phase 1 tests implemented)
+results/                   generated tables and figures (logs are gitignored)
 ```
 
 ---
 
 ## Status
 
-**Phase 0 complete.** No modelling code yet. The scope, method and roadmap are frozen; implementation starts at Phase 1 in [ROADMAP.md](ROADMAP.md).
+**Phase 1 complete.** The station-day table, leakage-safe scaler and data audit are implemented and tested. Phase 2 (detectors and fault injection) is next.
+
+### Phase 1 at a glance
+
+| Check | Result |
+|---|---|
+| Station-days | 26,085 (705 days × 37 stations) |
+| Features | 11 |
+| Split | 423 train / 282 test days |
+| Missing values | 0 |
+| Between-station variance ≥ 50% | `pH_min` (0.93), `SC_min` (0.92), `SC_max` (0.90) |
+| Strongest correlation | `T_mean`–`T_min`, r = 0.996 |
+| Tests | 16 passing |
+| Full audit | [results/phase1_summary.md](results/phase1_summary.md) |
+
+Reproduce with:
+
+```bash
+python scripts/01_build_dataset.py
+python scripts/02_audit.py
+pytest -q
+```
 
 ---
 
@@ -125,7 +146,7 @@ See [data/README.md](data/README.md) for the file inventory and checksum.
 
 ## Reproduction
 
-Once the pipeline is implemented:
+Phase 1:
 
 ```bash
 python -m venv .venv
@@ -133,6 +154,12 @@ source .venv/bin/activate
 pip install -r requirements.txt
 python scripts/01_build_dataset.py
 python scripts/02_audit.py
+pytest -q
+```
+
+Later phases add:
+
+```bash
 python scripts/03_run_detection.py
 python scripts/04_run_explanations.py
 python scripts/05_real_record.py
