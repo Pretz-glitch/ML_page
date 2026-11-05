@@ -213,6 +213,8 @@ class FaultInjector:
             raise ValueError(
                 f"Expected {n_stations} station IDs, got {len(self.station_ids)}"
             )
+        if len(np.unique(self.station_ids)) != n_stations:
+            raise ValueError("station_ids must be unique")
         if len(self.dates) != n_days:
             raise ValueError(f"Expected {n_days} dates, got {len(self.dates)}")
         if self.profile.iqr.shape != (n_stations, n_features):

@@ -51,7 +51,7 @@ Regenerate with `python scripts/phase2_smoke.py`.
 
 ## What this shows
 
-- The covariance detector recovers the pilot result (spike 0.994, drift 0.979, correlation break 0.863).
+- The covariance detector leads on every fault type, consistent with the pilot ranking (spike 0.994, drift 0.979, correlation break 0.863).
 - Standard Isolation Forest is weaker on every fault type, especially correlation breaks (0.568).
 - Extended Isolation Forest recovers much of the isolation-model gap (0.930 / 0.905 / 0.645).
 - Stuck faults are weak for most cross-sectional detectors (0.57–0.59). Mahalanobis reaches 0.79 because a frozen value can still violate the conditional expectation given the other features, but the signal is much weaker than for spike or drift.
