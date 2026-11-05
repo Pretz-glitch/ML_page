@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data
+data/processed/*
+!data/processed/.gitkeep
+data/raw/*.zip
+
+# Results (keep tables and figures, ignore logs)
+results/logs/*
+!results/logs/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
