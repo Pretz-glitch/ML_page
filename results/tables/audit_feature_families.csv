@@ -1,0 +1,12 @@
+feature,family
+SC_max,specific_conductance
+pH_max,ph
+pH_min,ph
+SC_min,specific_conductance
+SC_mean,specific_conductance
+DO_max,dissolved_oxygen
+DO_mean,dissolved_oxygen
+DO_min,dissolved_oxygen
+T_mean,temperature
+T_min,temperature
+T_max,temperature
