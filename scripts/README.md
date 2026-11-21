@@ -13,7 +13,7 @@ Run in order. Each script writes its outputs to `results/` and prints a `Wrote .
 
 ## Phase 2 verification
 
-Phase 2 has a dedicated integration script, `phase2_smoke.py`. It fits every detector on clean training data, injects each fault type into the test period, checks label/mask integrity, and writes `results/tables/phase2_smoke.csv` plus a JSON log. The curated report is [`results/phase2_smoke.md`](../results/phase2_smoke.md). Phase 3 adds the full `03_run_detection.py` benchmark.
+Phase 2 has a dedicated integration script, `phase2_smoke.py`. It fits every detector on clean training data, injects each fault type into the test period, checks label/mask integrity, and writes `results/tables/phase2_smoke.csv` plus a JSON log. The curated report is [`results/phase2_smoke.md`](../results/phase2_smoke.md). Phase 3 is implemented in `03_run_detection.py`; its results are in [`results/phase3_summary.md`](../results/phase3_summary.md).
 
 ## Conventions
 

@@ -125,7 +125,7 @@ results/                   generated tables and figures (logs are gitignored)
 | Fault types | spike, drift, correlation break, stuck |
 | Injection | 2% prevalence; 209–225 labelled station-days per fault type |
 | Outputs | corrupted tensor + tidy label table + cell and station-day masks |
-| Tests | 67 passing |
+| Tests | 56 passing |
 | Smoke run | Mahalanobis 0.994 / 0.979 / 0.863 on spike / drift / correlation break |
 
 ### Phase 3 at a glance
@@ -138,6 +138,7 @@ results/                   generated tables and figures (logs are gitignored)
 | Best detector | **Mahalanobis on every fault type** (AUC 0.990 / 0.957 / 0.859 / 0.745) |
 | Standard IF | 0.759 / 0.700 / 0.599 / 0.550 — weaker than MAD on spikes |
 | Extended IF | 0.934 / 0.864 / 0.665 / 0.565 — closes much of the isolation gap |
+| Tests | 67 passing (11 new) |
 | Outputs | `detection.csv`, `detection_summary.csv`, `detection_paired.csv`, heatmap |
 
 Reproduce with:
