@@ -12,7 +12,7 @@ Implement in this order. Each module is importable and testable without running 
 | `detectors.py` | ✅ Phase 2 | MAD, Mahalanobis, PCA reconstruction, Isolation Forest, Extended IF |
 | `faults.py` | ✅ Phase 2 | Spike, drift, correlation-break and stuck injectors; corrupted tensor + labels + masks |
 | `explain.py` | ⬜ Phase 4 | Occlusion attribution, exact Mahalanobis contribution, optional DIFFI |
-| `metrics.py` | ⬜ Phase 3–4 | AUC-ROC/PR, recall@k, precision@k, FPR, top-1 recovery, MRR, deletion drop, bootstrap CIs |
+| `metrics.py` | ✅ Phase 3 | AUC-ROC/PR, recall@k, precision@k, FPR, bootstrap CIs, paired bootstrap differences |
 
 ## Conventions
 

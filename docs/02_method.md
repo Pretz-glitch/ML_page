@@ -285,7 +285,7 @@ isotree.IsolationForest(
 
 Score with `model.predict(X)` (higher = more anomalous in `isotree`; verify orientation on a known outlier before trusting it).
 
-Add this row if Day 3 finishes early. It is a strong result: it tests whether IF's weakness is the axis-parallel split or the isolation principle itself.
+Included in the Phase 3 benchmark as a secondary detector. It tests whether IF's weakness is the axis-parallel split or the isolation principle itself.
 
 ### 5.6 What not to include
 
@@ -353,10 +353,12 @@ Only if needed for the report. Use **grouped** SHAP over the four feature famili
 | AUC-PR (average precision) | Precision–recall trade-off at low prevalence | Appropriate for imbalanced faults |
 | Recall@k | Fraction of injected rows in the top-k scores, `k =` number injected | Matches operational review capacity |
 | Precision@k | Fraction of top-k rows that are injected | Cost of reviewing flags |
-| FPR at threshold | Fraction of clean test rows above the 99th percentile of clean train scores | False-alarm rate at a fixed operating point |
-| Detection delay | Days from first affected day to first flagged day | Only for drift/stuck |
 
-Report per fault type and overall. Do not average across fault types without showing the per-type table.
+At `k = number injected`, precision@k equals recall@k. Phase 3 reports recall@k and omits the duplicate precision column; the metric function still returns both for completeness.
+| FPR at threshold | Fraction of clean test rows above the 99th percentile of clean train scores | False-alarm rate at a fixed operating point |
+| Detection delay | Days from first affected day to first flagged day | Optional; not reported in the Phase 3 table |
+
+Report per fault type. Do not average across fault types without showing the per-type table.
 
 ### 7.2 Faithfulness
 
@@ -387,11 +389,11 @@ No accuracy metrics are possible. Report:
 | ID | Experiment | Factors | Repeats | Output |
 |---|---|---|---|---|
 | E1 | Data audit | — | 1 | variance table, correlation figure, coverage figure |
-| E2 | Detection | 3 detectors × 3 faults × 3 magnitudes | 5 seeds | `detection.csv`, heatmap |
+| E2 | Detection | 5 detectors × (spike 3 + drift 3 + break 1 + stuck 1) | 5 seeds | `detection.csv`, summary, paired, heatmap |
 | E3 | Faithfulness | 2 explainers × 3 faults | 5 seeds | `faithfulness.csv`, bar chart |
 | E4 | Real record | 3 detectors × 1 period | 1 | `real_flags.csv`, case figure |
 
-Optional rows: EIF in E2; Mahalanobis occlusion in E3; stuck diagnostic in E2.
+Optional rows: Mahalanobis occlusion in E3; stuck is included as a diagnostic, not a core result.
 
 ---
 

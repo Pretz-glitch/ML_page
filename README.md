@@ -97,13 +97,14 @@ results/                   generated tables and figures (logs are gitignored)
 
 ## Status
 
-**Phase 2 complete.** Detectors and fault injection are implemented and tested. Phase 3 (detection benchmark) is next.
+**Phase 3 complete.** The full detection benchmark is implemented and verified. Phase 4 (explanation faithfulness) is next.
 
 | Phase | Status | Evidence |
 |---|---|---|
 | 1 — Data pipeline and audit | ✅ Complete | [results/phase1_summary.md](results/phase1_summary.md) |
 | 2 — Detectors and fault injection | ✅ Complete | [results/phase2_smoke.md](results/phase2_smoke.md) |
-| 3 — Detection benchmark | ⬜ Next | — |
+| 3 — Detection benchmark | ✅ Complete | [results/phase3_summary.md](results/phase3_summary.md) |
+| 4 — Explanation faithfulness | ⬜ Next | — |
 
 ### Phase 1 at a glance
 
@@ -124,8 +125,20 @@ results/                   generated tables and figures (logs are gitignored)
 | Fault types | spike, drift, correlation break, stuck |
 | Injection | 2% prevalence; 209–225 labelled station-days per fault type |
 | Outputs | corrupted tensor + tidy label table + cell and station-day masks |
-| Tests | 56 passing |
+| Tests | 67 passing |
 | Smoke run | Mahalanobis 0.994 / 0.979 / 0.863 on spike / drift / correlation break |
+
+### Phase 3 at a glance
+
+| Check | Result |
+|---|---|
+| Runs | 5 seeds × 8 conditions × 5 detectors = **200 result rows** |
+| Primary detectors | MAD, Mahalanobis, Isolation Forest |
+| Secondary detectors | PCA reconstruction, Extended IF |
+| Best detector | **Mahalanobis on every fault type** (AUC 0.990 / 0.957 / 0.859 / 0.745) |
+| Standard IF | 0.759 / 0.700 / 0.599 / 0.550 — weaker than MAD on spikes |
+| Extended IF | 0.934 / 0.864 / 0.665 / 0.565 — closes much of the isolation gap |
+| Outputs | `detection.csv`, `detection_summary.csv`, `detection_paired.csv`, heatmap |
 
 Reproduce with:
 
@@ -133,8 +146,10 @@ Reproduce with:
 python scripts/01_build_dataset.py
 python scripts/02_audit.py
 python scripts/phase2_smoke.py
+python scripts/03_run_detection.py
 pytest -q
 ```
+
 
 ---
 

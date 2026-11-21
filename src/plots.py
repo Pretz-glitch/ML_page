@@ -197,3 +197,66 @@ def save_distributions(
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, bbox_inches="tight")
     plt.close(fig)
+
+
+def save_detection_heatmap(
+    auc: pd.DataFrame,
+    recall: pd.DataFrame,
+    path: Path,
+    detector_names: dict[str, str] | None = None,
+    fault_names: dict[str, str] | None = None,
+) -> None:
+    """Save a two-panel heatmap of mean ROC-AUC and recall@k."""
+    set_style()
+    detector_names = detector_names or {}
+    fault_names = fault_names or {}
+
+    fig, axes = plt.subplots(
+        1, 2, figsize=(13.5, 5.4), constrained_layout=True
+    )
+    panels = [
+        (auc, "ROC-AUC", 0.4, 1.0, axes[0]),
+        (recall, "Recall at k", 0.0, 1.0, axes[1]),
+    ]
+
+    for frame, title, vmin, vmax, axis in panels:
+        values = frame.to_numpy(dtype=float)
+        image = axis.imshow(
+            values, cmap="viridis", vmin=vmin, vmax=vmax, aspect="auto"
+        )
+
+        axis.set_xticks(range(frame.shape[1]))
+        axis.set_xticklabels(
+            [fault_names.get(name, name) for name in frame.columns],
+            rotation=30,
+            ha="right",
+        )
+        axis.set_yticks(range(frame.shape[0]))
+        axis.set_yticklabels(
+            [detector_names.get(name, name) for name in frame.index]
+        )
+        axis.set_title(title)
+
+        midpoint = 0.6 * (vmax - vmin) + vmin
+        for row in range(frame.shape[0]):
+            for column in range(frame.shape[1]):
+                value = values[row, column]
+                colour = "black" if value >= midpoint else "white"
+                axis.text(
+                    column,
+                    row,
+                    f"{value:.2f}",
+                    ha="center",
+                    va="center",
+                    fontsize=8,
+                    color=colour,
+                )
+
+        fig.colorbar(image, ax=axis, shrink=0.82)
+
+    fig.suptitle("Detection benchmark (mean over seeds and available magnitudes)")
+    fig.text(0.5, -0.01, "* secondary detector", ha="center", va="top", fontsize=8)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, bbox_inches="tight")
+    plt.close(fig)
+

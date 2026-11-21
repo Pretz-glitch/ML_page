@@ -6,7 +6,7 @@ Run with:
 pytest -q
 ```
 
-## Current tests (Phases 1–2, 56 passing)
+## Current tests (Phases 1–3, 67 passing)
 
 | Test file | What it asserts |
 |---|---|
@@ -15,12 +15,12 @@ pytest -q
 | `test_split.py` | 26,085 rows, 423/282 day split, no overlap, scaler fitted on training medians only, training medians are zero after scaling, training IQR is one where IQR was used, test rows transformed with train parameters |
 | `test_detectors.py` | Every detector flags a known dependency-breaking outlier above its 99th percentile; score shape and finiteness; width checks; covariance symmetry; factory errors |
 | `test_faults.py` | Injected rows are labelled; clean cells are byte-identical; marked cells change; values stay in `[0, 1]`; prevalence matches; labels are unique; row IDs match the table convention; masks agree with labels; stuck values are constant per event; drift magnitude is constant per event; same seed is deterministic; invalid inputs raise |
+| `test_metrics.py` | Perfect separation gives AUC 1.0; known recall@k and FPR; invalid inputs raise; bootstrap CIs are reproducible and ordered; paired bootstrap detects a positive difference and handles zero difference |
 
 ## Planned tests
 
 | Test file | What it asserts |
 |---|---|
-| `test_metrics.py` | AUC is 1.0 for perfect separation and 0.5 for random scores; top-1 recovery is 1.0 for a perfect attribution; bootstrap CIs are ordered |
 | `test_explain.py` | Mahalanobis contributions sum to the squared distance; occlusion returns one contribution per feature; deletion drops the score |
 
 ## Rules
