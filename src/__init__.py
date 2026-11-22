@@ -1,6 +1,7 @@
 """Anomaly Page pipeline package."""
 
 from .detectors import DETECTOR_NAMES, BaseDetector, make_detector
+from .explain import conditional_means, conditional_occlusion_contributions
 from .faults import (
     FAULT_TYPES,
     FaultInjector,
@@ -37,4 +38,6 @@ __all__ = [
     "bootstrap_ci",
     "detection_metrics",
     "paired_bootstrap_diff",
+    "conditional_means",
+    "conditional_occlusion_contributions",
 ]

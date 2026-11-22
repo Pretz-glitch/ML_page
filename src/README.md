@@ -11,7 +11,7 @@ Implement in this order. Each module is importable and testable without running 
 | `utils.py` | ✅ Phase 1 | Project paths, git commit, package versions, checksums, JSON logs |
 | `detectors.py` | ✅ Phase 2 | MAD, Mahalanobis, PCA reconstruction, Isolation Forest, Extended IF |
 | `faults.py` | ✅ Phase 2 | Spike, drift, correlation-break and stuck injectors; corrupted tensor + labels + masks |
-| `explain.py` | ⬜ Phase 4 | Occlusion attribution, exact Mahalanobis contribution, optional DIFFI |
+| `explain.py` | ✅ Phase 4 | Simple and conditional occlusion, exact Mahalanobis contributions, ranking, deletion and stability helpers |
 | `metrics.py` | ✅ Phase 3 | AUC-ROC/PR, recall@k, precision@k, FPR, bootstrap CIs, paired bootstrap differences |
 
 ## Conventions
@@ -37,3 +37,11 @@ Implement in this order. Each module is importable and testable without running 
 - Every injection returns a tidy label table with `event_id`, `row_id`, `day_index`, `date`, `station_id`, `station_index`, `feature`, `feature_index`, `fault_type`, `magnitude`, `window_start_day`, `window_end_day` and `seed`.
 - Two boolean masks are returned: `cell_mask` and `station_day_mask`.
 - Features are eligible only if their median within-station IQR exceeds 0.01 in the raw normalised units.
+
+## Attribution conventions
+
+- **Simple occlusion** replaces a feature with `0` (the station's training median in the scaled space).
+- **Conditional occlusion** replaces a feature with `E[x_j | x_-j]` under a Gaussian reference fitted on training data.
+- **Exact Mahalanobis contribution** is `z_j * (Sigma^-1 z)_j`; the contributions sum to the squared distance.
+- Ranking uses **absolute** contributions.
+- The deletion test uses the **conditional** intervention for every method, so the comparison is not confounded by implausible simple-occlusion rows.

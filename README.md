@@ -97,14 +97,15 @@ results/                   generated tables and figures (logs are gitignored)
 
 ## Status
 
-**Phase 3 complete.** The full detection benchmark is implemented and verified. Phase 4 (explanation faithfulness) is next.
+**Phase 4 complete.** Attribution faithfulness is implemented, run and verified. Phase 5 (real-record analysis) is next.
 
 | Phase | Status | Evidence |
 |---|---|---|
 | 1 — Data pipeline and audit | ✅ Complete | [results/phase1_summary.md](results/phase1_summary.md) |
 | 2 — Detectors and fault injection | ✅ Complete | [results/phase2_smoke.md](results/phase2_smoke.md) |
 | 3 — Detection benchmark | ✅ Complete | [results/phase3_summary.md](results/phase3_summary.md) |
-| 4 — Explanation faithfulness | ⬜ Next | — |
+| 4 — Explanation faithfulness | ✅ Complete | [results/phase4_summary.md](results/phase4_summary.md) |
+| 5 — Real-record analysis | ⬜ Next | — |
 
 ### Phase 1 at a glance
 
@@ -141,6 +142,19 @@ results/                   generated tables and figures (logs are gitignored)
 | Tests | 67 passing (11 new) |
 | Outputs | `detection.csv`, `detection_summary.csv`, `detection_paired.csv`, heatmap |
 
+### Phase 4 at a glance
+
+| Check | Result |
+|---|---|
+| Attribution methods | 5 primary (IF simple/conditional, Mahalanobis simple/conditional/exact) + 6 secondary |
+| Faults | spike, drift, correlation break |
+| Seeds | 5 |
+| Best top-1 | **Mahalanobis + conditional occlusion: 0.995 / 0.959 / 0.728** |
+| Key contrast | Simple occlusion makes Mahalanobis look poor (0.574 / 0.451 / 0.203) because it creates implausible rows; the baseline choice changes the conclusion |
+| Stability | IF simple 0.92 / 0.89 / 0.78; EIF ≥ 0.98; deterministic methods 1.0 |
+| Tests | 79 passing (12 new) |
+| Outputs | `faithfulness.csv`, `attribution_rows.csv`, `faithfulness_paired.csv`, `faithfulness_stability.csv`, heatmap |
+
 Reproduce with:
 
 ```bash
@@ -148,6 +162,7 @@ python scripts/01_build_dataset.py
 python scripts/02_audit.py
 python scripts/phase2_smoke.py
 python scripts/03_run_detection.py
+python scripts/04_run_explanations.py
 pytest -q
 ```
 

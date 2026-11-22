@@ -305,17 +305,24 @@ The question is: *for a flagged row, which feature is responsible?*
 For a row `x` and feature `j`:
 
 ```
-x_replaced = x with feature j set to the station's training median (0 in scaled space)
+x_replaced = x with feature j replaced by a baseline value
 contribution_j = score(x) - score(x_replaced)
 ```
+
+Two baselines are evaluated:
+
+- **simple:** replace the feature with the station's training median (`0` in the scaled representation). This is model-agnostic, but under strong collinearity it creates an implausible row.
+- **conditional:** replace the feature with its Gaussian conditional mean `E[x_j | x_-j]`, using the mean and precision of a Mahalanobis reference fitted on training data. This keeps the row on the correlation manifold and is the primary correlation-aware baseline.
 
 A large positive contribution means the feature's value is pushing the score up.
 
 Notes:
 
-- This is an **interventional** attribution: it asks what happens if the feature is reset, holding the others fixed. With correlated features, the intervention may create an implausible row. Report this limitation.
+- Both are **interventional** attributions: they ask what happens if the feature is reset, holding the others fixed.
+- The conditional baseline is the natural intervention for Mahalanobis. For tree-based and PCA detectors it is a common external reference, not their own model, so both baselines are reported.
 - Compute for all 11 features per explained row. Cost is trivial.
-- Use the same method for IF and Mahalanobis, so the detector comparison is fair.
+- The **deletion test uses the conditional intervention for every method**, so the comparison is not confounded by implausible simple-occlusion rows.
+- `deletion_advantage_relative = (drop_top - drop_random) / base_score` makes the deletion result comparable across detectors with different score scales.
 
 ### 6.2 Exact Mahalanobis contribution
 
@@ -367,9 +374,10 @@ Report per fault type. Do not average across fault types without showing the per
 | Top-1 recovery | `argmax_j |contribution_j| == injected feature` |
 | MRR | Mean of `1 / rank(injected feature)` |
 | Mean rank | Average rank of the injected feature |
-| Deletion drop | `score(x) - score(x with top-attributed feature reset)` |
-| Random drop | Same, but reset a random feature (baseline) |
-| Stability | Jaccard overlap of top-1 feature across seeds for the same injected row |
+| Deletion drop | `score(x) - score(x with top-attributed feature replaced by its conditional mean)` |
+| Deletion advantage | `drop_top - mean(drop of the other features)` |
+| Deletion advantage (relative) | `deletion_advantage / base_score` |
+| Stability | Majority top-1 agreement across detector seeds with the injected rows fixed |
 
 A faithful explainer should have high top-1 recovery, low mean rank, and a deletion drop substantially larger than the random drop.
 
@@ -390,7 +398,7 @@ No accuracy metrics are possible. Report:
 |---|---|---|---|---|
 | E1 | Data audit | — | 1 | variance table, correlation figure, coverage figure |
 | E2 | Detection | 5 detectors × (spike 3 + drift 3 + break 1 + stuck 1) | 5 seeds | `detection.csv`, summary, paired, heatmap |
-| E3 | Faithfulness | 2 explainers × 3 faults | 5 seeds | `faithfulness.csv`, bar chart |
+| E3 | Faithfulness | 11 methods (5 primary + 6 secondary) × 3 faults | 5 seeds | `faithfulness.csv`, attribution rows, paired, stability, heatmap |
 | E4 | Real record | 3 detectors × 1 period | 1 | `real_flags.csv`, case figure |
 
 Optional rows: Mahalanobis occlusion in E3; stuck is included as a diagnostic, not a core result.

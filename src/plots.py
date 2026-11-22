@@ -260,3 +260,71 @@ def save_detection_heatmap(
     fig.savefig(path, bbox_inches="tight")
     plt.close(fig)
 
+
+def save_faithfulness_heatmap(
+    top1: pd.DataFrame,
+    mrr: pd.DataFrame,
+    path: Path,
+    method_names: dict[str, str] | None = None,
+    fault_names: dict[str, str] | None = None,
+) -> None:
+    """Save a two-panel heatmap of top-1 recovery and MRR."""
+    set_style()
+    method_names = method_names or {}
+    fault_names = fault_names or {}
+
+    fig, axes = plt.subplots(
+        1, 2, figsize=(13.5, 5.4), constrained_layout=True
+    )
+    panels = [
+        (top1, "Top-1 recovery", axes[0]),
+        (mrr, "Mean reciprocal rank", axes[1]),
+    ]
+
+    for frame, title, axis in panels:
+        values = frame.to_numpy(dtype=float)
+        image = axis.imshow(
+            values, cmap="viridis", vmin=0.0, vmax=1.0, aspect="auto"
+        )
+
+        axis.set_xticks(range(frame.shape[1]))
+        axis.set_xticklabels(
+            [fault_names.get(name, name) for name in frame.columns],
+            rotation=30,
+            ha="right",
+        )
+        axis.set_yticks(range(frame.shape[0]))
+        axis.set_yticklabels(
+            [method_names.get(name, name) for name in frame.index]
+        )
+        axis.set_title(title)
+
+        for row in range(frame.shape[0]):
+            for column in range(frame.shape[1]):
+                value = values[row, column]
+                colour = "black" if value >= 0.6 else "white"
+                axis.text(
+                    column,
+                    row,
+                    f"{value:.2f}",
+                    ha="center",
+                    va="center",
+                    fontsize=8,
+                    color=colour,
+                )
+
+        fig.colorbar(image, ax=axis, shrink=0.82)
+
+    fig.suptitle("Attribution faithfulness (mean over seeds)")
+    fig.text(
+        0.5,
+        -0.01,
+        "chance top-1 ≈ 0.09 (1 of 11 features)",
+        ha="center",
+        va="top",
+        fontsize=8,
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, bbox_inches="tight")
+    plt.close(fig)
+
