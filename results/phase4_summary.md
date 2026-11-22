@@ -99,10 +99,10 @@ Detected = score at or above the 99th percentile of clean training scores. IF de
 
 1. **Mahalanobis with conditional occlusion is the most faithful method overall.** Top-1 recovery is 0.995 on spikes, 0.959 on drift and 0.728 on correlation breaks; MRR is 0.997 / 0.973 / 0.819.
 2. **The occlusion baseline changes the conclusion.** With simple median occlusion, Mahalanobis looks poor (0.574 / 0.451 / 0.203) because replacing a feature with the station median creates an implausible row under strong collinearity. This is an artefact of the intervention, not of the detector.
-3. **Detectors prefer different baselines.** IF is more faithful with simple occlusion (0.760 / 0.702 / 0.281) than conditional occlusion (0.558 / 0.579 / 0.292). EIF is strong with both (0.911 / 0.830 / 0.364 and 0.836 / 0.792 / 0.311).
+3. **Detectors prefer different baselines.** IF is more faithful with simple occlusion on spikes and drift (0.760 / 0.702 vs 0.558 / 0.579); on correlation breaks the two are similar (0.281 vs 0.292). EIF is strong with both (0.911 / 0.830 / 0.364 and 0.836 / 0.792 / 0.311).
 4. **The exact Mahalanobis decomposition is strong but not the most faithful on breaks.** It reaches 0.954 / 0.810 / 0.339. Conditional occlusion beats it on every fault type, most strongly on correlation breaks (0.728 vs 0.339), because the additive decomposition spreads credit across correlated features.
-5. **Correlation breaks remain the hardest case.** The best method reaches 0.728; every other method is between 0.20 and 0.36. Dependency faults are genuinely harder to attribute than spikes or drift.
-6. **Stability is high for deterministic methods and lower for IF.** Mahalanobis, PCA and MAD agree perfectly across detector seeds; IF simple agrees on 0.92 / 0.89 / 0.78 of rows, and IF conditional on 0.80 / 0.79 / 0.86. EIF is at least 0.98.
+5. **Correlation breaks remain the hardest case.** The best method reaches 0.728; the other methods range from 0.15 to 0.36. Dependency faults are genuinely harder to attribute than spikes or drift.
+6. **Stability is high for deterministic methods and lower for IF.** Mahalanobis, PCA and MAD agree perfectly across detector seeds; IF simple agrees on 0.92 / 0.89 / 0.78 of rows, and IF conditional on 0.80 / 0.79 / 0.86. EIF stays at or above 0.979.
 7. **The deletion test agrees with the ranking.** Relative deletion advantage is 0.78 / 0.72 / 0.49 for Mahalanobis conditional, 0.76 / 0.66 / 0.34 for exact, and 0.10 / 0.09 / 0.04 for IF simple. The conditional intervention was used for the deletion test for every method, so the comparison is not confounded by implausible rows.
 
 ## Caveats

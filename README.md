@@ -151,7 +151,7 @@ results/                   generated tables and figures (logs are gitignored)
 | Seeds | 5 |
 | Best top-1 | **Mahalanobis + conditional occlusion: 0.995 / 0.959 / 0.728** |
 | Key contrast | Simple occlusion makes Mahalanobis look poor (0.574 / 0.451 / 0.203) because it creates implausible rows; the baseline choice changes the conclusion |
-| Stability | IF simple 0.92 / 0.89 / 0.78; EIF ≥ 0.98; deterministic methods 1.0 |
+| Stability | IF simple 0.92 / 0.89 / 0.78; EIF ≥ 0.979; deterministic methods 1.0 |
 | Tests | 79 passing (12 new) |
 | Outputs | `faithfulness.csv`, `attribution_rows.csv`, `faithfulness_paired.csv`, `faithfulness_stability.csv`, heatmap |
 
