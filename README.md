@@ -97,7 +97,7 @@ results/                   generated tables and figures (logs are gitignored)
 
 ## Status
 
-**Phase 4 complete.** Attribution faithfulness is implemented, run and verified. Phase 5 (real-record analysis) is next.
+**Phase 5 complete.** Real-record analysis is implemented and verified. Phase 6 (report and release) is next.
 
 | Phase | Status | Evidence |
 |---|---|---|
@@ -105,7 +105,8 @@ results/                   generated tables and figures (logs are gitignored)
 | 2 — Detectors and fault injection | ✅ Complete | [results/phase2_smoke.md](results/phase2_smoke.md) |
 | 3 — Detection benchmark | ✅ Complete | [results/phase3_summary.md](results/phase3_summary.md) |
 | 4 — Explanation faithfulness | ✅ Complete | [results/phase4_summary.md](results/phase4_summary.md) |
-| 5 — Real-record analysis | ⬜ Next | — |
+| 5 — Real-record analysis | ✅ Complete | [results/phase5_summary.md](results/phase5_summary.md) |
+| 6 — Report and release | ⬜ Next | — |
 
 ### Phase 1 at a glance
 
@@ -155,6 +156,21 @@ results/                   generated tables and figures (logs are gitignored)
 | Tests | 79 passing (12 new) |
 | Outputs | `faithfulness.csv`, `attribution_rows.csv`, `faithfulness_paired.csv`, `faithfulness_stability.csv`, heatmap |
 
+### Phase 5 at a glance
+
+| Check | Result |
+|---|---|
+| Test station-days | 10,434 |
+| Flag rates | 1.74%–3.05% across detectors |
+| Flagged by any detector | 559 (5.36%) |
+| Flagged by all three primary | 39 |
+| Flagged by at least two | 311 |
+| Pairwise Jaccard | 0.123–0.620 |
+| Top station | 2203700: 99 flags, but 0 from IF and 0 consensus |
+| Cases | pH_max shock; DO_max shock; a multivariate DO/T case with no feature above 1.33 IQR |
+| Tests | 88 passing (9 new) |
+| Outputs | `real_flags.csv`, flag/overlap/station/date summaries, `case_studies.png` |
+
 Reproduce with:
 
 ```bash
@@ -163,6 +179,7 @@ python scripts/02_audit.py
 python scripts/phase2_smoke.py
 python scripts/03_run_detection.py
 python scripts/04_run_explanations.py
+python scripts/05_real_record.py
 pytest -q
 ```
 

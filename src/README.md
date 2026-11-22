@@ -13,6 +13,7 @@ Implement in this order. Each module is importable and testable without running 
 | `faults.py` | ✅ Phase 2 | Spike, drift, correlation-break and stuck injectors; corrupted tensor + labels + masks |
 | `explain.py` | ✅ Phase 4 | Simple and conditional occlusion, exact Mahalanobis contributions, ranking, deletion and stability helpers |
 | `metrics.py` | ✅ Phase 3 | AUC-ROC/PR, recall@k, precision@k, FPR, bootstrap CIs, paired bootstrap differences |
+| `realdata.py` | ✅ Phase 5 | Pairwise overlap, flag concentration, per-detector summary, case selection |
 
 ## Conventions
 

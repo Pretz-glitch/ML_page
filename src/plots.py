@@ -328,3 +328,102 @@ def save_faithfulness_heatmap(
     fig.savefig(path, bbox_inches="tight")
     plt.close(fig)
 
+
+def save_case_studies(
+    frame: pd.DataFrame,
+    cases: pd.DataFrame,
+    feature_names: tuple[str, ...],
+    path: Path,
+    detectors: tuple[str, ...],
+) -> None:
+    """Plot three real-record cases: station history and feature profile."""
+    if cases.empty:
+        raise ValueError("No cases to plot")
+
+    set_style()
+    z_columns = [f"z_{feature}" for feature in feature_names]
+    n_cases = len(cases)
+
+    fig, axes = plt.subplots(
+        n_cases,
+        2,
+        figsize=(14.0, 3.9 * n_cases),
+        constrained_layout=True,
+    )
+    axes = np.atleast_2d(axes)
+
+    for row_index, (_, case) in enumerate(cases.iterrows()):
+        left, right = axes[row_index]
+        z_values = case[z_columns].to_numpy(dtype=float)
+        order = np.argsort(-np.abs(z_values))
+        top_feature = feature_names[order[0]]
+        station = int(case["station_id"])
+        date = pd.Timestamp(case["date"])
+
+        history = frame.loc[frame["station_id"] == station].sort_values("date")
+        left.plot(
+            history["date"],
+            history[f"z_{top_feature}"],
+            color="#2c7fb8",
+            linewidth=1.1,
+        )
+        left.axhline(0.0, color="#555555", linewidth=0.8)
+        left.axhline(2.0, color="#999999", linestyle="--", linewidth=0.8)
+        left.axhline(-2.0, color="#999999", linestyle="--", linewidth=0.8)
+        left.axvline(date, color="#c0392b", linestyle="--", linewidth=1.1)
+        left.set_title(
+            f"Case {int(case['case_id'])} · station {station} · {date.date()}\n"
+            f"{top_feature} at this station (z-score)"
+        )
+        left.set_ylabel("within-station z")
+        left.tick_params(axis="x", rotation=30)
+
+        sorted_values = z_values[order]
+        sorted_labels = [feature_names[index] for index in order]
+        positions = np.arange(len(sorted_labels))
+        colours = [
+            "#c0392b" if value >= 0 else "#2c7fb8" for value in sorted_values
+        ]
+
+        right.barh(positions, sorted_values, color=colours, alpha=0.85)
+        right.set_yticks(positions)
+        right.set_yticklabels(sorted_labels)
+        right.invert_yaxis()
+        right.axvline(0.0, color="#555555", linewidth=0.8)
+        right.axvline(2.0, color="#999999", linestyle="--", linewidth=0.8)
+        right.axvline(-2.0, color="#999999", linestyle="--", linewidth=0.8)
+        right.set_xlabel("z-score at the flagged station-day")
+        right.set_title(
+            f"Feature profile · flags {int(case['n_flags'])}/{len(detectors)} "
+            f"· primary {int(case['n_primary_flags'])}/3"
+        )
+
+        for rank in range(min(3, len(sorted_values))):
+            value = sorted_values[rank]
+            offset = 0.08 if value >= 0 else -0.08
+            right.text(
+                value + offset,
+                rank,
+                f"{value:.1f}",
+                va="center",
+                ha="left" if value >= 0 else "right",
+                fontsize=8,
+            )
+
+    fig.suptitle(
+        "Real-record case studies (unlabelled test period)",
+        fontsize=12,
+    )
+    fig.text(
+        0.5,
+        -0.005,
+        "z = within-station robust score (median 0, IQR 1). "
+        "Candidate flags, not confirmed pollution events.",
+        ha="center",
+        va="top",
+        fontsize=8,
+    )
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(path, bbox_inches="tight")
+    plt.close(fig)
+

@@ -389,6 +389,8 @@ No accuracy metrics are possible. Report:
 - Overlap between detectors (Jaccard).
 - Flag concentration by station and by date.
 - Three case studies with feature profiles against station reference statistics.
+- Case selection and profile plots use the 8 eligible features. Near-constant `SC_max`, `SC_min` and `pH_min` can produce unstable z-scores and are excluded from case interpretation.
+- Describe every flag as a candidate data-quality fault, not a confirmed pollution event.
 
 ---
 
@@ -399,7 +401,7 @@ No accuracy metrics are possible. Report:
 | E1 | Data audit | — | 1 | variance table, correlation figure, coverage figure |
 | E2 | Detection | 5 detectors × (spike 3 + drift 3 + break 1 + stuck 1) | 5 seeds | `detection.csv`, summary, paired, heatmap |
 | E3 | Faithfulness | 11 methods (5 primary + 6 secondary) × 3 faults | 5 seeds | `faithfulness.csv`, attribution rows, paired, stability, heatmap |
-| E4 | Real record | 3 detectors × 1 period | 1 | `real_flags.csv`, case figure |
+| E4 | Real record | 5 detectors × 1 period | 1 | `real_flags.csv`, case figure |
 
 Optional rows: Mahalanobis occlusion in E3; stuck is included as a diagnostic, not a core result.
 
