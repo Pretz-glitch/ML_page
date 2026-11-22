@@ -59,7 +59,7 @@ within-station robust scaling  (fit on train only)
     │                                            │
     ▼                                            ▼
 fault injection (spike, drift, correlation break)   detectors
-    │                                            (MAD, IF, Mahalanobis)
+    │                                            (MAD, Mahalanobis, PCA, IF, EIF)
     └──────────────► detection metrics ◄──────────┘
                             │
                             ▼
@@ -84,20 +84,22 @@ docs/
   03_related_work.md       literature and positioning
   04_scope_and_limitations.md
   05_pilot_results.md      preliminary evidence from the real dataset
+  report.md                final report
+  slides.md                12-slide deck
 data/
   README.md                source, licence, structure
   raw/                     UCI archive and source log
-src/                       pipeline modules (Phases 1–2 implemented)
-scripts/                   runnable experiment scripts (Phases 1–2 implemented)
-tests/                     unit tests (Phases 1–2 implemented)
-results/                   generated tables and figures (logs are gitignored)
+src/                       pipeline modules (all phases implemented)
+scripts/                   phase scripts, run_all.sh, release check
+tests/                     unit tests (88 passing)
+results/                   generated tables, figures, summaries and release manifest
 ```
 
 ---
 
 ## Status
 
-**Phase 5 complete.** Real-record analysis is implemented and verified. Phase 6 (report and release) is next.
+**All phases complete — v1.0.** The report, slides and release check are finished.
 
 | Phase | Status | Evidence |
 |---|---|---|
@@ -106,7 +108,7 @@ results/                   generated tables and figures (logs are gitignored)
 | 3 — Detection benchmark | ✅ Complete | [results/phase3_summary.md](results/phase3_summary.md) |
 | 4 — Explanation faithfulness | ✅ Complete | [results/phase4_summary.md](results/phase4_summary.md) |
 | 5 — Real-record analysis | ✅ Complete | [results/phase5_summary.md](results/phase5_summary.md) |
-| 6 — Report and release | ⬜ Next | — |
+| 6 — Report and release | ✅ Complete | [docs/report.md](docs/report.md), [docs/slides.md](docs/slides.md) |
 
 ### Phase 1 at a glance
 
@@ -171,17 +173,27 @@ results/                   generated tables and figures (logs are gitignored)
 | Tests | 88 passing (9 new) |
 | Outputs | `real_flags.csv`, flag/overlap/station/date summaries, `case_studies.png` |
 
+### Phase 6 at a glance
+
+| Check | Result |
+|---|---|
+| Final report | [`docs/report.md`](docs/report.md) |
+| Slides | [`docs/slides.md`](docs/slides.md) |
+| One-command reproduction | `./scripts/run_all.sh` |
+| Release check | `scripts/06_release_check.py` |
+| Manifest | `results/release_manifest.json` |
+| Tests | 88 passing |
+
 Reproduce with:
 
 ```bash
-python scripts/01_build_dataset.py
-python scripts/02_audit.py
-python scripts/phase2_smoke.py
-python scripts/03_run_detection.py
-python scripts/04_run_explanations.py
-python scripts/05_real_record.py
-pytest -q
+python3 -m venv .venv
+source .venv/bin/activate    # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+./scripts/run_all.sh
 ```
+
+`run_all.sh` regenerates every table and figure, runs the release check and executes the test suite. The phase scripts can also be run individually; see `scripts/README.md`.
 
 
 ---
@@ -210,23 +222,11 @@ See [data/README.md](data/README.md) for the file inventory and checksum.
 
 ## Reproduction
 
-Phase 1:
-
 ```bash
-python -m venv .venv
-source .venv/bin/activate
+python3 -m venv .venv
+source .venv/bin/activate    # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
-python scripts/01_build_dataset.py
-python scripts/02_audit.py
-pytest -q
+./scripts/run_all.sh
 ```
 
-Later phases add:
-
-```bash
-python scripts/03_run_detection.py
-python scripts/04_run_explanations.py
-python scripts/05_real_record.py
-```
-
-Every script writes its outputs to `results/` and ends with a `Wrote ...` line.
+`run_all.sh` runs phases 1–6, the release check and the 88 tests. Individual scripts are documented in [`scripts/README.md`](scripts/README.md). Every script writes its outputs to `results/` and ends with a `Wrote ...` line.

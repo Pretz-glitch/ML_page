@@ -21,7 +21,7 @@ pytest -q
 
 ## Planned tests
 
-Phase 6 will add an integration check that the README reproduction path and the report tables agree. No other unit tests are planned.
+Phase 6's release check (`scripts/06_release_check.py`) verifies expected artefacts, row counts and missing values. No additional unit tests are planned.
 
 ## Rules
 

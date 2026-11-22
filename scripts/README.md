@@ -1,28 +1,30 @@
 # `scripts/` — runnable experiments
 
-Run in order. Each script writes its outputs to `results/` and prints a `Wrote ...` line.
+Run in order, or use the one-command reproduction:
+
+```bash
+./scripts/run_all.sh
+```
 
 | Script | Phase | Status | Output |
 |---|---|---|---|
 | `01_build_dataset.py` | 1 | ✅ | `data/processed/station_day.csv`, `station_day_scaled.csv`, `scaler_params.csv` |
 | `02_audit.py` | 1 | ✅ | audit tables, four figures, `results/phase1_summary.md` |
-| `03_run_detection.py` | 3 | ✅ | `results/tables/detection.csv`, `detection_summary.csv`, `detection_paired.csv`, heatmap |
-| `04_run_explanations.py` | 4 | ✅ | `results/tables/faithfulness.csv`, attribution rows, paired, stability, heatmap |
-| `05_real_record.py` | 5 | ✅ | `real_flags.csv`, flag/overlap/station/date summaries, case studies, figure |
-| `06_make_figures.py` | 6 | ⬜ | final figures from saved CSVs |
-
-## Phase 2 verification
-
-Phase 2 has a dedicated integration script, `phase2_smoke.py`. It fits every detector on clean training data, injects each fault type into the test period, checks label/mask integrity, and writes `results/tables/phase2_smoke.csv` plus a JSON log. The curated report is [`results/phase2_smoke.md`](../results/phase2_smoke.md). Phase 3 is implemented in `03_run_detection.py`; its results are in [`results/phase3_summary.md`](../results/phase3_summary.md).
+| `phase2_smoke.py` | 2 | ✅ | `results/tables/phase2_smoke.csv`, `results/phase2_smoke.md` |
+| `03_run_detection.py` | 3 | ✅ | detection table, summary, paired comparisons, heatmap |
+| `04_run_explanations.py` | 4 | ✅ | faithfulness table, attribution rows, paired, stability, heatmap |
+| `05_real_record.py` | 5 | ✅ | real flags, flag/overlap/station/date summaries, case studies, figure |
+| `06_release_check.py` | 6 | ✅ | `results/release_manifest.json` |
+| `run_all.sh` | 6 | ✅ | full pipeline + release check + tests |
 
 ## Conventions
 
 - Every modelling script accepts `--seed` and `--config` (or uses documented defaults).
-- Every script writes a JSON log with the git commit, package versions, seeds and checksums.
+- Every experiment script writes a JSON log with the git commit, package versions, seeds and checksums; the release check writes the manifest.
 - Scripts never edit each other's outputs.
 - Scripts do not contain analysis logic that belongs in `src/`.
 
-## Current commands
+## Individual commands
 
 ```bash
 python scripts/01_build_dataset.py
@@ -31,11 +33,6 @@ python scripts/phase2_smoke.py
 python scripts/03_run_detection.py
 python scripts/04_run_explanations.py
 python scripts/05_real_record.py
+python scripts/06_release_check.py
 pytest -q
-```
-
-## Later commands
-
-```bash
-python scripts/06_make_figures.py
 ```

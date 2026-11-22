@@ -1,0 +1,208 @@
+{
+  "version": "v1.0",
+  "generated_by": "scripts/06_release_check.py",
+  "versions": {
+    "python": "3.12.3",
+    "numpy": "1.26.4",
+    "pandas": "2.1.4",
+    "scipy": "1.11.4",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.6.3"
+  },
+  "files": {
+    "results/tables/audit_variance.csv": {
+      "sha256": "cd9e88f10f539112d1dc3f20e218bd5242286e457f692c5c408478062928eef8",
+      "rows": 11
+    },
+    "results/tables/audit_correlations.csv": {
+      "sha256": "25077e2ac7b9c9f97fa862a618a970d965bd8aa54536c1b3e3ee5cf9bd40c8ee",
+      "rows": 11
+    },
+    "results/tables/audit_top_correlations.csv": {
+      "sha256": "0bb3425565624c15f1baa00e0da5d30cf725c07ea109f7bcb19feb3f74c9ceab",
+      "rows": 55
+    },
+    "results/tables/audit_floor_values.csv": {
+      "sha256": "4fef2bd9e2b4e17f5e1a9afcc8462ae921fe6d4cf08856ab59362a2dc4204612",
+      "rows": 11
+    },
+    "results/tables/audit_feature_families.csv": {
+      "sha256": "3f98ff64354a7f1240a8d8ffcdd644ba72d692d7ecfed1c5758e8fb1e79543b7",
+      "rows": 11
+    },
+    "results/tables/audit_station_summary.csv": {
+      "sha256": "62f4eb0f9d7add833ce7511200e1fd89629bf1914cf36389290e530784202056",
+      "rows": 37
+    },
+    "results/tables/audit_split_summary.csv": {
+      "sha256": "b29d4acf5eea2c662c29fa4dacf7465b5d8d802234880b7c5bcc80bd248e9fb6",
+      "rows": 2
+    },
+    "results/tables/audit_group_summary.csv": {
+      "sha256": "ea53305b87050a090a5718321f4fafab368a3b818d155936ea14de8efbebf435",
+      "rows": 3
+    },
+    "results/tables/audit_summary.json": {
+      "sha256": "e91c4bb25cbdcc118c46e3664184fc89a8600ac21573bd5dd81615460e00f6a9"
+    },
+    "results/tables/phase2_smoke.csv": {
+      "sha256": "a3075a8e56da6f13759142b52f1f73eaeaaf2e7d882b58a276713d0902ace53c",
+      "rows": 20
+    },
+    "results/tables/detection.csv": {
+      "sha256": "2d3a256871e68b1af823ee05f10ec452e6514fdc1bf1d20bece00c872e8b53de",
+      "rows": 200
+    },
+    "results/tables/detection_summary.csv": {
+      "sha256": "c256d62bca4b28daa14ee6cf49e6bc08320741538a830fe3de4ad7908e7560f9",
+      "rows": 40
+    },
+    "results/tables/detection_paired.csv": {
+      "sha256": "df43418c186b471259a7f92474129709f69b6cc9f1494db95c87da3af53c55b9",
+      "rows": 80
+    },
+    "results/tables/faithfulness.csv": {
+      "sha256": "0b73af69a78878721460c02999212b758578cd6d3fd74f0670ab40a0e6cf1659",
+      "rows": 33
+    },
+    "results/tables/attribution_rows.csv": {
+      "sha256": "c303da4f07d5f02db2008dbd40fa29a4eda15400786bd4d30ace3104d6db3089",
+      "rows": 34892
+    },
+    "results/tables/faithfulness_paired.csv": {
+      "sha256": "6a90a28c55f2bb2f08ac4165b5c7c906829377f2af7a565c5384c7cbce1e1b3c",
+      "rows": 63
+    },
+    "results/tables/faithfulness_stability.csv": {
+      "sha256": "17e09264474a82dd61312e6d49fb501bedd66b843dd564f991aadc7957b89c88",
+      "rows": 33
+    },
+    "results/tables/real_flags.csv": {
+      "sha256": "22fb5c8bb7f82389e851d922241c679ce9a03936377bee52f1bd87d2a40e376a",
+      "rows": 10434
+    },
+    "results/tables/real_flag_summary.csv": {
+      "sha256": "b2d8edb902ed785271f4711201663d39800e73d34f036f857eabc71b619d9418",
+      "rows": 5
+    },
+    "results/tables/real_overlap.csv": {
+      "sha256": "97e18750aecf0469e1b8a2b29b2380159fbb38aa554e1bb1090c26b1d0b1375b",
+      "rows": 10
+    },
+    "results/tables/real_station_summary.csv": {
+      "sha256": "d0f951a16d29eefd43cc9f3b4ec12c3944e94e804db40e9cd4d5dac0945f0fb6",
+      "rows": 37
+    },
+    "results/tables/real_date_summary.csv": {
+      "sha256": "0f775ee6d22472a2672a59cfea0d958225b2a228ef82f05bec7e778bf623585a",
+      "rows": 282
+    },
+    "results/tables/real_case_studies.csv": {
+      "sha256": "4771223d7bd680f42ffd89bb6c51349b4bed09d48de5af5d51faba9743ef95b6",
+      "rows": 3
+    },
+    "results/phase1_summary.md": {
+      "sha256": "34a3d4a208a10117ff37eda0f33cce703f2075cef10ba5259e2a562079028e35"
+    },
+    "results/phase2_smoke.md": {
+      "sha256": "79a07d2e4f590c8cc659c6ef6c76f3cf5703689a8f64578c4886dec368ab68fd"
+    },
+    "results/phase3_summary.md": {
+      "sha256": "1c8c6501fb04af1d219023c212da66b15e1eb204520c44555ce724d3ba04bf20"
+    },
+    "results/phase4_summary.md": {
+      "sha256": "42bbad806a61e70e06c74b2c7a8174e6af5e5eeae86a29ef60cdc36965a5f5d2"
+    },
+    "results/phase5_summary.md": {
+      "sha256": "55b318f02655e13cdead129ec7191187cae0b56162e1a4a792371a2f38a771e6"
+    },
+    "results/figures/audit_correlation.png": {
+      "sha256": "d169c43f0a83a2868c30f3c8806a4818669d6baa73cec4ca4722d9c4df6e73f3"
+    },
+    "results/figures/audit_variance.png": {
+      "sha256": "6ba9769d7e70c884a42326fafc7185669ce46e8073988e7fbe871f345543445f"
+    },
+    "results/figures/audit_coverage.png": {
+      "sha256": "a95e4022273f71e211f1017da6b146e8a5994a64a925b76ed8153c5eceeb8869"
+    },
+    "results/figures/audit_distributions.png": {
+      "sha256": "5764c8b4047b3d8266aa121bfd2410ec2a54840bbe00c7279fc1f923d87080b2"
+    },
+    "results/figures/detection_heatmap.png": {
+      "sha256": "d749c1d14d368f04f72f59c847cd9ea2ac679af3f16ebc8162b31732d5bdc96c"
+    },
+    "results/figures/faithfulness.png": {
+      "sha256": "bdca92b88abc9f24a7f85a57baaace334206f49085fb512729dc83e7ba148b01"
+    },
+    "results/figures/case_studies.png": {
+      "sha256": "83aec9b7868f20aad1446e15f3c07559b260d4d994659e6c10d839121047160c"
+    },
+    "docs/report.md": {
+      "sha256": "83920979e6752f6b09932ca1d0068969cca6cfcc2ee662c592b911eee85da592"
+    },
+    "docs/slides.md": {
+      "sha256": "c9d69b666a4b2e925568bf9c2073f9b94040d30a2cbbd5f28d695a3fb88d24b1"
+    }
+  },
+  "checks": [
+    "exists: results/tables/audit_variance.csv",
+    "exists: results/tables/audit_correlations.csv",
+    "exists: results/tables/audit_top_correlations.csv",
+    "exists: results/tables/audit_floor_values.csv",
+    "exists: results/tables/audit_feature_families.csv",
+    "exists: results/tables/audit_station_summary.csv",
+    "exists: results/tables/audit_split_summary.csv",
+    "exists: results/tables/audit_group_summary.csv",
+    "exists: results/tables/audit_summary.json",
+    "exists: results/tables/phase2_smoke.csv",
+    "exists: results/tables/detection.csv",
+    "exists: results/tables/detection_summary.csv",
+    "exists: results/tables/detection_paired.csv",
+    "exists: results/tables/faithfulness.csv",
+    "exists: results/tables/attribution_rows.csv",
+    "exists: results/tables/faithfulness_paired.csv",
+    "exists: results/tables/faithfulness_stability.csv",
+    "exists: results/tables/real_flags.csv",
+    "exists: results/tables/real_flag_summary.csv",
+    "exists: results/tables/real_overlap.csv",
+    "exists: results/tables/real_station_summary.csv",
+    "exists: results/tables/real_date_summary.csv",
+    "exists: results/tables/real_case_studies.csv",
+    "exists: results/phase1_summary.md",
+    "exists: results/phase2_smoke.md",
+    "exists: results/phase3_summary.md",
+    "exists: results/phase4_summary.md",
+    "exists: results/phase5_summary.md",
+    "exists: results/figures/audit_correlation.png",
+    "exists: results/figures/audit_variance.png",
+    "exists: results/figures/audit_coverage.png",
+    "exists: results/figures/audit_distributions.png",
+    "exists: results/figures/detection_heatmap.png",
+    "exists: results/figures/faithfulness.png",
+    "exists: results/figures/case_studies.png",
+    "exists: docs/report.md",
+    "exists: docs/slides.md",
+    "no-missing: results/tables/phase2_smoke.csv",
+    "no-missing: results/tables/detection.csv",
+    "no-missing: results/tables/detection_summary.csv",
+    "no-missing: results/tables/detection_paired.csv",
+    "no-missing: results/tables/faithfulness.csv",
+    "no-missing: results/tables/attribution_rows.csv",
+    "no-missing: results/tables/faithfulness_paired.csv",
+    "no-missing: results/tables/faithfulness_stability.csv",
+    "no-missing: results/tables/real_flags.csv",
+    "no-missing: results/tables/real_flag_summary.csv",
+    "no-missing: results/tables/real_overlap.csv",
+    "no-missing: results/tables/real_station_summary.csv",
+    "no-missing: results/tables/real_date_summary.csv",
+    "no-missing: results/tables/real_case_studies.csv",
+    "detection metrics in range",
+    "detection summary uses five seeds",
+    "faithfulness summary uses five seeds",
+    "faithfulness metrics in range",
+    "real-record flags consistent",
+    "overlap metrics in range",
+    "case studies use distinct stations"
+  ],
+  "status": "passed"
+}
